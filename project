@@ -1,0 +1,52 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+struct Fridge {
+	int litres_of_milk;
+	int kg_of_meat;
+	int pieces_of_cheese;
+	int pieces_of_cackes;
+};
+
+int main() {
+	Fridge my_fridge = {2, 3, 14, 4};
+	string act;
+	int milk, meat, cheese, cackes;
+	getline(cin, act);
+	if (act == "add the milk") {
+		cin >> milk;
+		my_fridge.litres_of_milk +=milk;
+	}
+	else if (act == "delete the milk") {
+		cin >> milk;
+		my_fridge.litres_of_milk -= milk;
+	}
+	else if (act == "add the meat") {
+		cin >> meat;
+		my_fridge.kg_of_meat += meat;
+	} 
+	else if (act == "delete the meat") {
+		cin >> meat;
+		my_fridge.kg_of_meat -= meat;
+	}
+	else if (act == "add the cheese") {
+		cin >> cheese;
+		my_fridge.pieces_of_cheese+= cheese;
+	}
+	else if (act == "delete the cheese") {
+		cin >> cheese;
+		my_fridge.pieces_of_cheese -= cheese;
+	}
+	else if (act == "add the cackes") {
+		cin >> cackes;
+		my_fridge.pieces_of_cackes += cackes;
+	}
+	else if (act == "delete the cackes") {
+		cin >> cackes;
+		my_fridge.pieces_of_cackes -= cackes;
+	}
+	cout << my_fridge.litres_of_milk<<' '<< my_fridge.kg_of_meat<< ' '<< my_fridge.pieces_of_cheese<< ' '<< my_fridge.pieces_of_cackes;
+	
+	return 0;
+}
