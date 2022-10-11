@@ -10,7 +10,7 @@ struct Fridge {
 };
 
 int main() {
-	Fridge my_fridge = {2, 3, 14, 4};
+	Fridge my_fridge = {0, 3, 14, 4};
 	string act;
 	int milk, meat, cheese, cackes;
 	getline(cin, act);
