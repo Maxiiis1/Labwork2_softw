@@ -1,0 +1,23 @@
+#include <iostream>
+#include <string>
+using namespace std;
+struct Friedge 
+{
+	int liters_of_milk;
+	int kg_of_meat;
+	int cheese;
+	double cakes;
+};
+int main() {
+	/*Friedge my_friedge;
+	my_friedge.liters_of_milk = 2;
+	my_friedge.kg_of_meat = 3;
+	my_friedge.cheese = 4;
+	my_friedge.cakes=0.7;*/ //одно и то же
+	int milk, meat, cheese, cakes;
+	cin>> milk>> meat>> cheese>> cakes;
+	Friedge my_friedge = { milk, meat, cheese, cakes};
+	cout << "milk - " << my_friedge.liters_of_milk;
+	return 0;
+}
+
