@@ -1,0 +1,141 @@
+#include "number.h"
+#include<algorithm>
+#include<cmath>
+using std::string;
+using std::cout;
+using std::vector;
+
+uint2022_t from_uint(uint32_t l) {
+    uint2022_t our_int;
+    string s = std::to_string(l);
+    int remains_of_number = s.length() % 9;
+    string part_of_numb = "";
+    for (int i = s.length() - 1; i >= -1; i--)
+    {
+        if (((part_of_numb != "") and (abs(i + 1 - remains_of_number)) % 9 == 0) or i==-1)
+        {
+            reverse(part_of_numb.begin(),part_of_numb.end());
+            our_int.the_huge_number.push_back(stoi(part_of_numb));
+            part_of_numb = "";
+        }
+        part_of_numb += s[i];
+
+    }
+    return our_int;
+
+}
+
+uint2022_t from_string(const char* buff) {
+    uint2022_t our_str;
+    string s = buff;
+    int remains_of_number = s.length() % 9;
+    string part_of_numb = "";
+    uint2022_t our_number;
+    for (int i = s.length() - 1; i >= -1; i--)
+    {
+        if (((part_of_numb != "") and (abs(i + 1 - remains_of_number)) % 9 == 0) or i==-1)
+        {
+            reverse(part_of_numb.begin(),part_of_numb.end());
+            our_str.the_huge_number.push_back(stoi(part_of_numb));
+            part_of_numb = "";
+        }
+        part_of_numb += s[i];
+
+    }
+    return our_str;
+}
+
+uint2022_t operator+(const uint2022_t& lhs, const uint2022_t& rhs) {
+    uint2022_t number;
+    for(int i=0; i<(std::max(lhs.the_huge_number.size(), rhs.the_huge_number.size())); i++) {
+        number.the_huge_number.push_back(0);
+    }
+    int64_t temp_sum=0;
+    for (int i = 0; i<std::max(lhs.the_huge_number.size(), rhs.the_huge_number.size()); i++){
+        if (i<lhs.the_huge_number.size()) temp_sum+=lhs.the_huge_number[i];
+        if (i<rhs.the_huge_number.size()) temp_sum+=rhs.the_huge_number[i];
+        if (temp_sum>=pow(10, 9))
+        {
+            number.the_huge_number[i+1]+=temp_sum/(pow(10,9));//1234
+            temp_sum-=pow(10,9);
+        }
+        number.the_huge_number[i]+=temp_sum;
+        temp_sum=0;
+    }
+
+    return number;
+}
+
+uint2022_t operator-(const uint2022_t& lhs, const uint2022_t& rhs) {
+    uint2022_t number;
+    for(int i=0; i<(std::max(lhs.the_huge_number.size(), rhs.the_huge_number.size())); i++) {
+        number.the_huge_number.push_back(0);
+    }
+    int64_t temp_dif=0;
+    if ((lhs.the_huge_number.size()>rhs.the_huge_number.size()) or ((lhs.the_huge_number.size()==rhs.the_huge_number.size()) and (lhs.the_huge_number[lhs.the_huge_number.size()-1])>=rhs.the_huge_number[rhs.the_huge_number.size()-1])) {//РїСЂРѕРІРµСЂРєР° РЅР° С‚Рѕ, С‡С‚Рѕ РїРµСЂРІРѕРµ С‡РёСЃР»Рѕ Р±РѕР»СЊС€Рµ
+        for (int i = 0; i < std::max(lhs.the_huge_number.size(), rhs.the_huge_number.size()); i++) {
+            if (i < lhs.the_huge_number.size()) temp_dif = lhs.the_huge_number[i];
+            if (i < rhs.the_huge_number.size()) temp_dif -= rhs.the_huge_number[i];
+            if (temp_dif < 0 and i!= std::max(lhs.the_huge_number.size(), rhs.the_huge_number.size())-1)
+            {
+                number.the_huge_number[i + 1] --;//Р·Р°РЅРёРјР°РµРј СЂР°Р·СЂСЏРґ, С‡С‚РѕР±С‹ РґРѕР±Р°РІРёС‚СЊ Рє СЂР°Р·РЅРѕСЃС‚Рё
+                temp_dif += pow(10, 9);
+            }
+            number.the_huge_number[i] += temp_dif;
+            temp_dif = 0;
+        }
+    }
+    return number;
+}
+
+uint2022_t operator*(const uint2022_t& lhs, const uint2022_t& rhs) {
+    uint2022_t composition;
+    int size_of_arr = lhs.the_huge_number.size()+rhs.the_huge_number.size();
+    for(int i=0; i<size_of_arr; i++) {
+        composition.the_huge_number.push_back(0);//Р·Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ
+    }
+    for (int i=0; i<lhs.the_huge_number.size(); i++)
+    {
+        int remains_to_digit=0;
+        for (int j=0; j<rhs.the_huge_number.size() or remains_to_digit!=0; j++)
+        {
+            long long result_of_comp = remains_to_digit;
+            if (j<rhs.the_huge_number.size()) result_of_comp += composition.the_huge_number[i+j]+ lhs.the_huge_number[i] * (long long)rhs.the_huge_number[j];
+            composition.the_huge_number[i+j]=result_of_comp % 1000000000;//Р·Р°РїРёСЃС‹РІР°РµРј 9 С†РёС„СЂ РїРѕР»СѓС‡РёРІС€РµРіРѕСЃСЏ РїСЂРѕРёР·РІРµРґРµРЅРёСЏ
+            remains_to_digit=result_of_comp / 1000000000;//Р·Р°РїРёСЃС‹РІР°РµРј РѕСЃС‚Р°С‚РѕРє РїСЂРѕРёР·РІРµРґРµРЅРёСЏ
+        }
+    }
+    for (int i = composition.the_huge_number.size()-1; composition.the_huge_number[i]== 0 and composition.the_huge_number.size()!=1; i--)
+    {
+        composition.the_huge_number.erase(composition.the_huge_number.begin()+i);
+    }
+    return composition;
+}
+
+uint2022_t operator/(const uint2022_t& lhs, const uint2022_t& rhs) {
+    return uint2022_t();
+}
+
+bool operator==(const uint2022_t& lhs, const uint2022_t& rhs) {
+    bool equality=false;
+    if(std::equal(lhs.the_huge_number.cbegin(), lhs.the_huge_number.cend(), rhs.the_huge_number.cbegin())){
+        return true;
+    }
+    else return false;
+}
+//
+bool operator!=(const uint2022_t& lhs, const uint2022_t& rhs) {
+    return !(lhs == rhs);
+}
+
+std::ostream& operator<<(std::ostream& stream, const uint2022_t& value) {
+    for (int i = value.the_huge_number.size() - 1; i >= 0; i--)
+    {
+        string part_of_numb = std::to_string(value.the_huge_number[i]);
+        int count = 9 - part_of_numb.size();
+        while ((i != value.the_huge_number.size() - 1) and count-- != 0)//РґРѕР±Р°РІР»СЏРµРј РІРµРґСѓС‰РёРµ РЅСѓР»Рё
+            stream << 0;
+        stream << value.the_huge_number[i];
+    }
+    return stream;
+}
