@@ -1,3 +1,6 @@
 [submodule "Git-intro"]
 	path = Git-intro
 	url = https://github.com/ashtanyuk/Git-intro
+[submodule "geometric_lib"]
+	path = geometric_lib
+	url = https://github.com/smartiqaorg/geometric_lib
