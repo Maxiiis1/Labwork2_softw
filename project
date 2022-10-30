@@ -46,7 +46,8 @@ int main() {
 		cin >> cackes;
 		my_fridge.pieces_of_cackes -= cackes;
 	}
-	cout << my_fridge.litres_of_milk<<' '<< my_fridge.kg_of_meat<< ' '<< my_fridge.pieces_of_cheese<< ' '<< my_fridge.pieces_of_cackes;
+	cout << my_fridge.litres_of_milk<<' '<< my_fridge.kg_of_meat<< ' '<< my_fridge.pieces_of_cheese;
 	
 	return 0;
 }
+//////
